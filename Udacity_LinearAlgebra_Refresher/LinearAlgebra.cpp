@@ -12,7 +12,6 @@ namespace linear_algebra {
 		template<typename H>
 		int assignElements(H& last) {
 			dimensions++;
-			delete[] coordinates;
 			coordinates = new T[dimensions];
 			if (coordinates)
 				coordinates[dimensions - 1] = (T)last;
@@ -46,6 +45,7 @@ namespace linear_algebra {
 		Vector(Ts... co_ordinates) {
 			
 			try {
+				dimensions = 0;
 				if (assignElements(co_ordinates...) < -1)
 					throw  -2;
 					
@@ -80,7 +80,8 @@ namespace linear_algebra {
 			
 			try {
 				dimensions = size;
-				delete[] coordinates;
+				if(!coordinates)
+					delete[] coordinates;
 				coordinates = new T[dimensions];
 				if (coordinates) {
 					for (unsigned i = 0; i < dimensions; i++)
@@ -169,6 +170,32 @@ namespace linear_algebra {
 
 		}
 
+		Vector operator * (const Vector& vec) {
+			try {
+				T* arr = new T[dimensions];
+				for (unsigned i = 0; i < dimensions; i++)
+					arr[i] = coordinates[i] * vec.coordinates[i];
+				Vector<T> result;
+				result.fromArray(arr, dimensions);
+				delete[] arr;
+				return result;
+			}
+			catch (...) {
+				std::cout << "Exception raised in performing element wise multiplication. May be due to non-matching dimensions\n";
+			}
+		}
+
+		void operator *= (const Vector& vec) {
+			try {
+				
+				for (unsigned i = 0; i < dimensions; i++)
+					coordinates[i] *= (T)vec.coordinates[i];
+				
+			}
+			catch (...) {
+				std::cout << "Exception raised in performing element wise multiplication. May be due to non-matching dimensions\n";
+			}
+		}
 		
 		Vector operator * (T scalar) {
 			try {
@@ -247,6 +274,37 @@ namespace linear_algebra {
 				std::cout << "Error in calculating angle between vectors. May be due to non-matching dimensions or zero magnitude of vectors\n";
 			}
 			
+		}
+
+
+		bool isParallelTo(const Vector& vec) {
+			if (floor(getMagnitude()) == 0.0f || floor(vec.getMagnitude()) == 0.0f) return true;
+			float angle = angleWith(vec);
+			return (floor(angle)==0.0f||angle==3.141592f);
+		}
+
+		bool isOrthogonalTo(const Vector& vec) {
+			float dotProd = dotProduct(vec);
+			return (dotProd == 0.0f);
+		}
+
+
+		Vector crossProduct(const Vector& vec) {
+			try {
+				Vector<T> result;
+				T arr[3];
+				if (dimensions == 3) {
+					arr[0] = (coordinates[1] * vec.atDim(2)) - (coordinates[2] * vec.atDim(1));
+					arr[1] = (coordinates[2] * vec.atDim(0)) - (coordinates[0] * vec.atDim(2));
+					arr[2] = (coordinates[0] * vec.atDim(1)) - (coordinates[1] * vec.atDim(0));
+					result.fromArray(arr, 3);
+					return result;
+				}
+				return NULL;
+			}
+			catch (...) {
+
+			}
 		}
 
 

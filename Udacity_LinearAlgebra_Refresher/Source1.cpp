@@ -42,37 +42,39 @@ int main() {
 	std::cout << "Printing elements in vector v3:\n";
 	v3.printElements();*/
 
-	linear_algebra::Vector<float> v(7.887,4.138);
-	linear_algebra::Vector<float> w(-8.802,6.776);
-	//linear_algebra::Vector<float> *cleaner;
-	std::cout << "Dot product between v and w: " << v.dotProduct(w) << std::endl;
+	linear_algebra::Vector<float> v(8.462,7.893,-8.187);
+	linear_algebra::Vector<float> w(6.984,-5.975,4.778);
+	
+	linear_algebra::Vector<float> result;
+
+	result = v.crossProduct(w);
+
+	std::cout << std::endl;
+	std::cout << "Cross Product of v and w : \t";
+	result.printElements();
+	std::cout << std::endl;
 	
 	
-	//cleaner = &v;
-	v=linear_algebra::Vector<float>(-5.955, -4.904, -1.874);
-	//delete cleaner;
-	//cleaner = &w;
-	w=linear_algebra::Vector<float>(-4.496, -8.755, 7.103);
-	//delete cleaner;
-	std::cout << "Dot product between v and w: " << v.dotProduct(w) << std::endl;
+	v=linear_algebra::Vector<float>(-8.987,-9.838,5.031);
+	w=linear_algebra::Vector<float>(-4.268,-1.861,-8.866);
+
+
+	result = v.crossProduct(w);
+
+	std::cout << std::endl;
+	std::cout<<"Area of parallelogram: \t"<<result.getMagnitude()<<std::endl;
+	std::cout << std::endl;
+
 
 	
-	//cleaner = &v;
-	//v.reassign<float>(3.183,-7.627);
-	//free(cleaner);
-	//cleaner = &w;
-	//w.reassign(-2.668,5.319);
-	//free(cleaner);
-	std::cout << "Angle between v and w: " << v.angleWith(w) << std::endl;
+	v=linear_algebra::Vector<float>(1.5,9.547,3.691);
+	w=linear_algebra::Vector<float>(-6.007,0.124,5.772);
 
-	//cleaner = &v;
-	//v.reassign(7.35, 0.221,5.188);
-	//free(cleaner);
-	//cleaner = &w;
-	//w.reassign(2.751,8.259,3.985);
-	//free(cleaner);
-	std::cout << "Angle between v and w: " << v.angleWith(w) << std::endl;
+	result = v.crossProduct(w);
 
+	std::cout << std::endl;
+	std::cout << "Area of Triangle: \t" << result.getMagnitude()/2 << std::endl;
+	std::cout << std::endl;
 
 
 	getchar();
